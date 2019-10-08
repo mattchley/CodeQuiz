@@ -1,0 +1,22 @@
+/* maybe use boot strap of mediaquery to ensure that it looks appropriate at small medium large sizes */
+
+/* holds the questions in place */
+#container {
+    max-width: 960px;
+    align-self: auto;
+    text-align: center;
+}
+
+/* header that holds score and timer in place */
+#navbar {
+    display: flex;
+    max-width: 960px;
+    align-self: auto;
+    text-align: center;
+}
+#score{
+    justify-content: left;
+}
+#timer{
+    justify-content: right;
+}
