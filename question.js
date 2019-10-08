@@ -1,4 +1,5 @@
 // questions exsist in an Array of [0-4]
+// https://www.youtube.com/watch?v=49pYIMygIcU says to break apart answers
 var questions = [
 // Data question
     {

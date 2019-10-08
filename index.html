@@ -5,8 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" type="text/css" href="Style.css">
-    <script src="question.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css">
     <title>Coding Quiz</title>
 </head>
 <header id="navbar">
@@ -15,25 +14,27 @@
 </header>
 
 <body>
-    <div id='startpage'>
+    <div id="container">
+        <h1 id="title">Coding Quiz Challenge</h1>
+        <div id="content">
+            <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect
+                answers will penalize your score time by 10 seconds.</p>
+            <button id="startBtn" style ="display: block">Start Quiz</button>
+            <div id="choices" style ="display: none">
+                <div class='choice' id='a'></div>
+                <div class='choice' id='b'></div>
+                <div class='choice' id='c'></div>
+                <div class='choice' id='d'></div>
+            </div>
+            <div id='username'>
 
+            </div>
+        </div>
     </div>
-    <div id='startbtn'>
 
-    </div>
-    <div id='quizcontent'>
 
-    </div>
-    <div id="Answers">
-        <div class='answer' id='a'></div>
-        <div class='answer' id='b'></div>
-        <div class='answer' id='c'></div>
-        <div class='answer' id='d'></div>
-    </div>
-    <div id='username'>
 
-    </div>
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
 </body>
 
 </html>
