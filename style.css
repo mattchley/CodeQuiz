@@ -14,7 +14,7 @@
     padding: 30px;
 }
 
-#titel{
+#title{
     height: 40px;
 }
 button{
@@ -27,13 +27,7 @@ button{
 /* header that holds score and timer in place */
 #navbar {
     display: flex;
-    max-width: 960px;
+    justify-content: space-between; 
+    max-width: 100%;
     align-self: auto;
-    text-align: center;
-}
-#score{
-    justify-content: left;
-}
-#timer{
-    justify-content: right;
 }

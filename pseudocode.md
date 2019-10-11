@@ -1,4 +1,7 @@
 Pseudocode
+queryselector allows for.item or #item hopefully fix answer buttons
+the Dom manipulation review from week 5 activity 1 will help streamline this application
+set attricbute toggle classes
 
 opening age needs to have
     1. nav bar

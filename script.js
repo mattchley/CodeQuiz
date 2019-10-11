@@ -1,126 +1,138 @@
-// Universal Elements
-var headerEl = document.getElementById('title')
-var startBtnEl = document.getElementById('startBtn')
-var scoreDisplayEl = document.getElementById('score')
-var timerDisplayEl = document.getElementById('timer')
-var choicesEl = document.getElementById('choices')
-var answerA = document.getElementById('a')
-var answerB = document.getElementById('b')
-var answerC = document.getElementById('c')
-var answerD = document.getElementById('d')
-var clickedEl = document.querySelector('option')
-var userNamerInputEl = document.getElementById('username')
-var contentEl = document.getElementById('titleQ')
-var introEl = document.getElementById('intro')
-var indicatorFeedbackEl = document.getElementById('feedback')
 
-
-// questions exsist in an Array of [0-4]
-// https://www.youtube.com/watch?v=49pYIMygIcU says to break apart answers
-var questions = [
-    // Data question
+var scoreEl = document.querySelector("#score")
+var timerEl = document.querySelector("#timer")
+var titleEl = document.querySelector("#title")
+var contentEl = document.querySelector("#content")
+var startEl = document.querySelector('#startbtn')
+var answersEl = document.querySelector('#answers')
+var feedbackEl = document.querySelector("#feedback")
+var backEl = document.querySelector("#back")
+var clearEl = document.querySelector("#clear")
+var infoEl = document.querySelector("#info")
+var usernameEl =document.querySelector('#username')
+var usernames = [];
+prepareCountdown();
+init();
+var qs = [
     {
         title: "Commonly used data types DO NOT include:",
-        choiceA: "strings",
-        choiceB: "booleans",
-        choiceC: "alerts",
-        choiceD: "numbers",
+        choices: ["strings", "booleans", "alerts", "numbers"],
         answer: "alerts"
     },
-    // If/else question
     {
         title: "The condition in an if / else statement is enclosed within ____.",
-        choiceA: "quotes",
-        choiceB: "curly brackets",
-        choiceC: "parenteses",
-        choiceD: "square brackets",
+        choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
         answer: "parentheses"
     },
-    // Arrays in Javascript question
     {
         title: "Arrays in JavaScript can be used to store ____.",
-        choiceA: "numbers and strings",
-        choiceB: "other arrays",
-        choiceC: "booleans",
-        choiceD: "all of the above",
+        choices: ["numbers and strings", "other arrays", "booleans", "all of the above",],
         answer: "all of the above"
     },
-    // String values question
     {
         title: "String vlaues must be enclosed within ____ when being assigned to variables.",
-        choiceA: "comams",
-        choiceB: "curly brackets",
-        choiceC: "quotes",
-        choiceD: "parentheses",
+        choices: ["comams", "curly brackets", "quotes", "parentheses"],
         answer: "curly brackets"
     },
-    // Debugging question
     {
         title: "A very useful tool used during development and debugging for printing content to the debugger is ____.",
-        choiceA: "JavaScript",
-        choiceB: "terminal/bash",
-        choiceC: "for loops",
-        choiceD: "console.log",
+        choices: ["JavaScript", "terminal/bash", "for loops", "console.log",],
         answer: "console.log"
     },
-    ///etc.
 ];
-// Event listener for start button 
-// generates the first question(x)
-// needs to be a modal?
-const lastQuestion = questions.length - 1;
-let runningQuestion = 0;
 
-startBtnEl.addEventListener("click", function generateQuestion() {
+startEl.innerHTML = "<button>" + "Start quiz" + "</button>"
+titleEl.innerHTML = "<h1>" + "Coding Quiz Challenge" + "<h>"
+infoEl.innerHTML = "<p>" + "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score time by 15 seconds." + "</p>"
 
-    let q = questions[runningQuestion];
+// for loop to propagate questions/answers (does not call from the array) might be fixed with activity 27 todo list complet
+startEl.addEventListener("click", function generateQuestion() {
+    // propagates questions 
+    for (i = 0; i < qs.length; i++) {
+        var grabTitles = document.createElement('p')
+        grabTitles.textContent = qs[i];
+        contentEl.appendChild(grabTitles);
+    }
+    // propagates answer buttons
+    for (i = 0; i < qs.length; i++) {
+        var grabAnswers = document.createElement('button')
+        grabAnswers.textContent = qs[i];
+        answersEl.appendChild(grabAnswers);
+    }
+    // removes start button and h1 title
+    startEl.innerHTML = " ";
+    titleEl.innerHTML = " ";
+    infoEl.innerHTML = ' ';
+});
 
-    contentEl.innerHTML = "<p>" + q.title + "</p>";
-    answerA.innerHTML = q.choiceA;
-    answerB.innerHTML = q.choiceB;
-    answerC.innerHTML = q.choiceC;
-    answerD.innerHTML = q.choiceD;
-    startBtnEl.style.display = 'none';
-    choicesEl.style.display = 'block';
-    contentEl.style.display = 'block';
-    headerEl.style.display = 'none';
-    introEl.style.display = 'none';
+// make answerEl event listener that shows the answer (does not call from array)
+answersEl.addEventListener('click', function generateFeedback() {
+    // propagates correct answer
+    for (i = 0; i < qs.length; i++) {
+        var showFeedback = document.createElement('p')
+        showFeedback.textContent = qs[i];
+        feedbackEl.appendChild(showFeedback);
+    }
+
+})
+
+// timer functionality (needs connection with score)
+startEl.addEventListener("click", function prepareCountdown() {
+    var timeLeft = 75;
+
+    var timeInterval = setInterval(function () {
+        timerEl.textContent = timeLeft + " seconds remaining";
+        timeLeft--;
+        // when time = send to username page
+        if (timeLeft === 0) {
+            timerEl.textContent = "";
+            // v will be the funciton that sends them to the end page el
+            allDone();
+            clearInterval(timeInterval);
+        }
+
+    }, 1000);
+});
+
+// score tracker 
+scoreEl.addEventListener('click', function generateScoreList() {
+
+    // lists scores needs:storage, todo list foramting
+    var grabScores = document.createElement('li')
+    grabScores.textContent = "scores";
+    contentEl.appendChild(grabScores);
+
+    // back button that goes back to main page
+    var backBtn = document.createElement('button')
+    backBtn.textContent = "Go back"
+    backEl.appendChild(backBtn);
+    backEl.addEventListener('click', function homePage(){
+        window.location.reload();
+    } );
+
+    // Clear Highscore that erases storage
+    var clearScores = document.createElement('button');
+    clearScores.textContent = "Clear Highscores";
+    clearEl.appendChild(clearScores);
+    clearEl.addEventListener('click', function wipeScoreList() {
+        // local storage stuff here
+    });
+
+    // removes start button and content
+    startEl.innerHTML = " ";
+    infoEl.innerHTML = " ";
+    timerEl.innerHTML = ' ';
 
 });
 
-// Event listener for answers
-answerA.addEventListener("click", function showAnswer() {
-    
-    let q = questions[runningQuestion];
+//username input field
+usernameEl.addEventListener('submit', function saveUsername() {
+    var done = document.createElement('h1');
+    done.textContent = "All Done";
+    titleEl.appendChild(done);
 
-    indicatorFeedbackEl.innerHTML = "<p>" + q.answer + "</p>";
-    indicatorFeedbackEl.style.display = 'block';
-
-});
-
-answerB.addEventListener("click", function showAnswer() {
-    
-    let q = questions[runningQuestion];
-
-    indicatorFeedbackEl.innerHTML = "<p>" + q.answer + "</p>";
-    indicatorFeedbackEl.style.display = 'block';
-
-});
-
-answerC.addEventListener("click", function showAnswer() {
-    
-    let q = questions[runningQuestion];
-
-    indicatorFeedbackEl.innerHTML = "<p>" + q.answer + "</p>";
-    indicatorFeedbackEl.style.display = 'block';
-
-});
-
-answerD.addEventListener("click", function showAnswer() {
-    
-    let q = questions[runningQuestion];
-
-    indicatorFeedbackEl.innerHTML = "<p>" + q.answer + "</p>";
-    indicatorFeedbackEl.style.display = 'block';
+    var finalScore = document.createElement("p");
+    finalScore.textContent = prepareCountdown();
+    contentEl.appendChild(finalScore);
 
 });
