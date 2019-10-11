@@ -1,18 +1,21 @@
 
-var scoreEl = document.querySelector("#score")
-var timerEl = document.querySelector("#timer")
-var titleEl = document.querySelector("#title")
-var contentEl = document.querySelector("#content")
-var startEl = document.querySelector('#startbtn')
-var answersEl = document.querySelector('#answers')
-var feedbackEl = document.querySelector("#feedback")
-var backEl = document.querySelector("#back")
-var clearEl = document.querySelector("#clear")
-var infoEl = document.querySelector("#info")
-var usernameEl =document.querySelector('#username')
+var scoreEl = document.querySelector("#score");
+var timerEl = document.querySelector("#timer");
+var titleEl = document.querySelector("#title");
+var contentEl = document.querySelector("#content");
+var startEl = document.querySelector('#startbtn');
+var answersEl = document.querySelector('#answers');
+var feedbackEl = document.querySelector("#feedback");
+var backEl = document.querySelector("#back");
+var clearEl = document.querySelector("#clear");
+var infoEl = document.querySelector("#info");
+var usernameEl = document.querySelector('#username');
+var round = 1;
+var score = 0;
 var usernames = [];
-prepareCountdown();
-init();
+
+// prepareCountdown();
+// init();
 var qs = [
     {
         title: "Commonly used data types DO NOT include:",
@@ -41,40 +44,43 @@ var qs = [
     },
 ];
 
-startEl.innerHTML = "<button>" + "Start quiz" + "</button>"
-titleEl.innerHTML = "<h1>" + "Coding Quiz Challenge" + "<h>"
-infoEl.innerHTML = "<p>" + "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score time by 15 seconds." + "</p>"
+usernameEl
+startEl.innerHTML = "<button>" + "Start quiz" + "</button>";
+titleEl.innerHTML = "<h1>" + "Coding Quiz Challenge" + "<h>";
+infoEl.innerHTML = "<p>" + "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score time by 15 seconds." + "</p>";
 
-// for loop to propagate questions/answers (does not call from the array) might be fixed with activity 27 todo list complet
-startEl.addEventListener("click", function generateQuestion() {
-    // propagates questions 
-    for (i = 0; i < qs.length; i++) {
-        var grabTitles = document.createElement('p')
-        grabTitles.textContent = qs[i];
-        contentEl.appendChild(grabTitles);
-    }
-    // propagates answer buttons
-    for (i = 0; i < qs.length; i++) {
+// for loop to propagate questions/answers [doesnt do one answer at a time]
+startEl.addEventListener("click", function renderQuestion() {
+    var questionObj = qs[round - 1];
+    // propogates questions
+    var question = questionObj.title;
+    var grabTitles = document.createElement('p')
+    grabTitles.textContent = question;
+    contentEl.appendChild(grabTitles);
+
+    // for loop answers
+    var choices = questionObj.choices;
+    for (i = 0; i < 4; i++) {
         var grabAnswers = document.createElement('button')
-        grabAnswers.textContent = qs[i];
+        grabAnswers.textContent = choices[i];
         answersEl.appendChild(grabAnswers);
-    }
+    };
+
     // removes start button and h1 title
     startEl.innerHTML = " ";
     titleEl.innerHTML = " ";
     infoEl.innerHTML = ' ';
-});
 
-// make answerEl event listener that shows the answer (does not call from array)
-answersEl.addEventListener('click', function generateFeedback() {
-    // propagates correct answer
-    for (i = 0; i < qs.length; i++) {
+    answersEl.addEventListener('click', function generateFeedback() {
+        var questionObj = qs[round - 1];
+        var correctAnswer = questionObj.answer;
+        // propagates correct answer
         var showFeedback = document.createElement('p')
-        showFeedback.textContent = qs[i];
+        showFeedback.textContent = correctAnswer;
         feedbackEl.appendChild(showFeedback);
-    }
+    })
 
-})
+});
 
 // timer functionality (needs connection with score)
 startEl.addEventListener("click", function prepareCountdown() {
@@ -94,7 +100,7 @@ startEl.addEventListener("click", function prepareCountdown() {
     }, 1000);
 });
 
-// score tracker 
+// View Highscore 
 scoreEl.addEventListener('click', function generateScoreList() {
 
     // lists scores needs:storage, todo list foramting
@@ -106,9 +112,9 @@ scoreEl.addEventListener('click', function generateScoreList() {
     var backBtn = document.createElement('button')
     backBtn.textContent = "Go back"
     backEl.appendChild(backBtn);
-    backEl.addEventListener('click', function homePage(){
+    backEl.addEventListener('click', function homePage() {
         window.location.reload();
-    } );
+    });
 
     // Clear Highscore that erases storage
     var clearScores = document.createElement('button');
@@ -135,4 +141,68 @@ usernameEl.addEventListener('submit', function saveUsername() {
     finalScore.textContent = prepareCountdown();
     contentEl.appendChild(finalScore);
 
+    // local storage here
+    usernameEl.addEventListener("submit", function (event) {
+
+
+
+
+
+    });
 });
+
+
+// event.preventDefault();
+
+// var usernameText = todoInput.value.trim();
+
+// // Return from function early if submitted todoText is blank
+// if (usernameText === "") {
+//   return;
+// }
+
+// // Add new todoText to todos array, clear the input
+// usernames.push(usernameText);
+// todoInput.value = "";
+
+// // Store updated todos in localStorage, re-render the list
+// storeTodos();
+// renderTodos();
+// });
+// function init() {
+//     // Get stored todos from localStorage
+//     // Parsing the JSON string to an object
+//     var storedUsernames = JSON.parse(localStorage.getItem("todos"));
+
+//     // If todos were retrieved from localStorage, update the todos array to it
+//     if (storedUsernames !== null) {
+//       todos = storedUsernames;
+//     }
+
+//     // Render todos to the DOM
+//     renderTodos();
+
+// function storeTodos() {
+//     // Stringify and set "todos" key in localStorage to todos array
+//     localStorage.setItem("todos", JSON.stringify(usernames));
+//   }
+
+//   // When form is submitted...
+// todoForm.addEventListener("submit", function(event) {
+//     event.preventDefault();
+
+//     var todoText = todoInput.value.trim();
+
+//     // Return from function early if submitted todoText is blank
+//     if (todoText === "") {
+//       return;
+//     }
+
+//     // Add new todoText to todos array, clear the input
+//     todos.push(todoText);
+//     todoInput.value = "";
+
+//     // Store updated todos in localStorage, re-render the list
+//     storeTodos();
+//     renderTodos();
+//   });
