@@ -5,6 +5,10 @@ var titleEl = document.querySelector("#title");
 var contentEl = document.querySelector("#content");
 var startEl = document.querySelector('#startbtn');
 var answersEl = document.querySelector('#answers');
+var answer1El = document.querySelector('#answer1');
+var answer2El = document.querySelector('#answer2');
+var answer3El = document.querySelector('#answer3');
+var answer4El = document.querySelector('#answer4');
 var feedbackEl = document.querySelector("#feedback");
 var backEl = document.querySelector("#back");
 var clearEl = document.querySelector("#clear");
@@ -54,16 +58,15 @@ startEl.addEventListener("click", function renderQuestion() {
     var questionObj = qs[round - 1];
     // propogates questions
     var question = questionObj.title;
-    var grabTitles = document.createElement('p')
-    grabTitles.textContent = question;
-    contentEl.appendChild(grabTitles);
+    contentEl.innerHTML = "<p>" + question + "</p>"
 
     // for loop answers
     var choices = questionObj.choices;
-    for (i = 0; i < 4; i++) {
-        var grabAnswers = document.createElement('button')
-        grabAnswers.textContent = choices[i];
-        answersEl.appendChild(grabAnswers);
+    for (i = 0; i < qs.length; i++) {
+        answer1El.innerHTML = '<button>' + choices[0] + '</button>';
+        answer2El.innerHTML = '<button>' + choices[1] + '</button>';
+        answer3El.innerHTML = '<button>' + choices[2] + '</button>';
+        answer4El.innerHTML = '<button>' + choices[3] + '</button>';
     };
 
     // removes start button and h1 title
@@ -72,15 +75,17 @@ startEl.addEventListener("click", function renderQuestion() {
     infoEl.innerHTML = ' ';
 
     answersEl.addEventListener('click', function generateFeedback() {
-        var questionObj = qs[round - 1];
         var correctAnswer = questionObj.answer;
         // propagates correct answer
-        var showFeedback = document.createElement('p')
-        showFeedback.textContent = correctAnswer;
-        feedbackEl.appendChild(showFeedback);
-    })
+        feedbackEl.innerHTML = '<p>' + correctAnswer + '</p>'
 
+
+        renderQuestion(round = 2);
+
+
+    })
 });
+
 
 // timer functionality (needs connection with score)
 startEl.addEventListener("click", function prepareCountdown() {
