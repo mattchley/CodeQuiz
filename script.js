@@ -14,11 +14,10 @@ var backEl = document.querySelector("#back");
 var clearEl = document.querySelector("#clear");
 var infoEl = document.querySelector("#info");
 var usernameEl = document.querySelector('#username');
-var round = 1;
+var round = 0;
 var score = 0;
 var usernames = [];
 
-// prepareCountdown();
 // init();
 var qs = [
     {
@@ -33,7 +32,7 @@ var qs = [
     },
     {
         title: "Arrays in JavaScript can be used to store ____.",
-        choices: ["numbers and strings", "other arrays", "booleans", "all of the above",],
+        choices: ["numbers and strings", "other arrays", "booleans", "all of the above"],
         answer: "all of the above"
     },
     {
@@ -53,9 +52,9 @@ startEl.innerHTML = "<button>" + "Start quiz" + "</button>";
 titleEl.innerHTML = "<h1>" + "Coding Quiz Challenge" + "<h>";
 infoEl.innerHTML = "<p>" + "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score time by 15 seconds." + "</p>";
 
-// for loop to propagate questions/answers [doesnt do one answer at a time]
+// for loop to propagate questions/answers 
 startEl.addEventListener("click", function renderQuestion() {
-    var questionObj = qs[round - 1];
+    var questionObj = qs[round];
     // propogates questions
     var question = questionObj.title;
     contentEl.innerHTML = "<p>" + question + "</p>"
@@ -77,11 +76,13 @@ startEl.addEventListener("click", function renderQuestion() {
     answersEl.addEventListener('click', function generateFeedback() {
         var correctAnswer = questionObj.answer;
         // propagates correct answer
-        feedbackEl.innerHTML = '<p>' + correctAnswer + '</p>'
-
-
-        renderQuestion(round = 2);
-
+        feedbackEl.innerHTML = '<p>' + correctAnswer + " is the correct answer." + '</p>';
+       
+       round++;
+    // needs a delay?
+       renderQuestion()
+    // if round 4 is done go to saveUsername()   
+    
 
     })
 });
@@ -98,7 +99,7 @@ startEl.addEventListener("click", function prepareCountdown() {
         if (timeLeft === 0) {
             timerEl.textContent = "";
             // v will be the funciton that sends them to the end page el
-            allDone();
+            // go to saveUsername();
             clearInterval(timeInterval);
         }
 
@@ -136,15 +137,10 @@ scoreEl.addEventListener('click', function generateScoreList() {
 
 });
 
-//username input field
+//username input field/ added score from timer
 usernameEl.addEventListener('submit', function saveUsername() {
-    var done = document.createElement('h1');
-    done.textContent = "All Done";
-    titleEl.appendChild(done);
-
-    var finalScore = document.createElement("p");
-    finalScore.textContent = prepareCountdown();
-    contentEl.appendChild(finalScore);
+    titleEl.innerHTML = '<h1>' + 'All Done!' + '</h1>';
+    contentEl.innerHTML ='<p>' + 'Your Score is ' + prepareCountdown(timeLeft) + '</p>';
 
     // local storage here
     usernameEl.addEventListener("submit", function (event) {
