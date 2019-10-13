@@ -15,32 +15,9 @@ var clearEl = document.querySelector("#clear");
 var infoEl = document.querySelector("#info");
 var usernameEl = document.querySelector('#username');
 var round = 1;
-var timeRemain = function prepareCountdown() {
-    var timeLeft = 75;
-    var timeInterval = setInterval(function () {
-        timerEl.textContent = timeLeft + " seconds remaining";
-        timeLeft--;
-        // when time = send to username page
-        if (timeLeft === 0) {
-            timerEl.textContent = "";
-            // v will be the funciton that sends them to the end page el
-            // go to saveUsername();
-            clearInterval(timeInterval);
-
-        }
-
-    }, 1000);
-};
-// var score = ;
+var timeLeft = 75;
+var score = timeLeft;
 var usernames = [];
-var endScreen = function saveUsername() {
-    if (round > 5){
-        titleEl.innerHTML = '<h1>' + 'All Done!' + '</h1>';
-        var finalScore = document.createElement("p");
-        finalScore.textContent = prepareCountdown();
-        contentEl.innerHTML = '<p>' + + '</p>'
-    }
-};
 var qs = [
     {
         title: "Commonly used data types DO NOT include:",
@@ -67,10 +44,16 @@ var qs = [
         choices: ["JavaScript", "terminal/bash", "for loops", "console.log",],
         answer: "console.log"
     }
-
+    
 ];
-var renderQsAs = function generateQuestion() {
-    var questionObj = qs[round - 1];
+
+startEl.innerHTML = "<button>" + "Start quiz" + "</button>";
+titleEl.innerHTML = "<h1>" + "Coding Quiz Challenge" + "<h>";
+infoEl.innerHTML = "<p>" + "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score time by 15 seconds." + "</p>";
+
+// for loop to propagate questions/answers skipping 3again 
+startEl.addEventListener("click", function generateQuestion() {
+    var questionObj = qs[round -1];
     // propogates questions
     var question = questionObj.title;
     contentEl.innerHTML = "<p>" + question + "</p>"
@@ -88,64 +71,86 @@ var renderQsAs = function generateQuestion() {
     startEl.innerHTML = " ";
     titleEl.innerHTML = " ";
     infoEl.innerHTML = ' ';
-};
 
-var renderFeedback = function generateFeedback() {
-    var questionObj = qs[round - 1];
 
-    var correctAnswer = questionObj.answer;
-    // propagates correct answer
-    feedbackEl.innerHTML = '<p>' + correctAnswer + " is the correct answer." + '</p>';
+    // maybe remove from
+    answersEl.addEventListener('click', function generateFeedback() {
+        // 
+        var correctAnswer = questionObj.answer;
+        // propagates correct answer
+        feedbackEl.innerHTML = '<p>' + correctAnswer + " is the correct answer." + '</p>';
 
-    round++;
-    renderQsAs();
-};
+        round++;
+        generateQuestion()
+        // var wrong = function deductTime(){
+            //     timeLeft - 15;
+    
+            // };
+            
+            // if (round === 0) {
+            //     answers3El = true;
+            // } else if (round === 0) {
+            //     answer1El = wrong;
+            //     answers2El = wrong;
+            //     answers4El = wrong;
+            // };
+    
+            // if (round === 1) {
+            //     answers3El = true;
+            // } else if (round === 1) {
+            //     answer1El = wrong;
+            //     answers2El = wrong;
+            //     answers4El = wrong;
+            // };
+    
+            // if (round === 2) {
+            //     answers4El = true;
+            // } else if (round === 2) {
+            //     answer1El = wrong;
+            //     answers2El = wrong;
+            //     answer3El = wrong;
+            // };
+    
+            // if (round === 3) {
+            //     answers2El = true;
+            // } else if (round === 3) {
+            //     answer1El = wrong;
+            //     answer3El = wrong;
+            //     answer4El = wrong;
+            // };
+    
+            // if (round === 4) {
+            //     answers4El = true;
+            // } else if (round === 4) {
+            //     answer1El = wrong;
+            //     answers2El = wrong;
+            //     answer3El = wrong;
+            // };
+            
+    });
+   
+});
 
-var punishment = function deductTime() {
-    var wrong = timeRemain - 15;
 
-    if (round === 0) {
-        answers3El = true;
-    } else if (round === 0) {
-        answer1El = wrong;
-        answers2El = wrong;
-        answers4El = wrong;
-    };
+// timer functionality (needs connection with score)
+startEl.addEventListener("click", function prepareCountdown() {
+    var timeInterval = setInterval(function () {
+        timerEl.textContent = timeLeft + " seconds remaining";
+        timeLeft--;
+        // when time = send to username page
+        if (timeLeft === 0) {
+            timerEl.textContent = "";
+            // v will be the funciton that sends them to the end page el
+            // go to saveUsername();
+            clearInterval(timeInterval);
+            
+        }
 
-    if (round === 1) {
-        answers3El = true;
-    } else if (round === 1) {
-        answer1El = wrong;
-        answers2El = wrong;
-        answers4El = wrong;
-    };
+    }, 1000);
+});
 
-    if (round === 2) {
-        answers4El = true;
-    } else if (round === 2) {
-        answer1El = wrong;
-        answers2El = wrong;
-        answer3El = wrong;
-    };
-
-    if (round === 3) {
-        answers2El = true;
-    } else if (round === 3) {
-        answer1El = wrong;
-        answer3El = wrong;
-        answer4El = wrong;
-    };
-
-    if (round === 4) {
-        answers4El = true;
-    } else if (round === 4) {
-        answer1El = wrong;
-        answers2El = wrong;
-        answer3El = wrong;
-    };
-
-};
-var scoreListEl= function generateScoreList() {
+// View Highscore 
+scoreEl.addEventListener('click', function generateScoreList() {
 
     // lists scores needs:storage, todo list foramting
     var grabScores = document.createElement('li')
@@ -172,34 +177,25 @@ var scoreListEl= function generateScoreList() {
     startEl.innerHTML = " ";
     infoEl.innerHTML = " ";
     timerEl.innerHTML = ' ';
-};
 
-var storeUser = function saveUsername() {
+});
+
+//username input field
+usernameEl.addEventListener('submit', function saveUsername() {
     titleEl.innerHTML = '<h1>' + 'All Done!' + '</h1>';
     var finalScore = document.createElement("p");
     finalScore.textContent = prepareCountdown();
     contentEl.innerHTML = '<p>' + + '</p>'
-};
 
-startEl.innerHTML = "<button>" + "Start quiz" + "</button>";
-titleEl.innerHTML = "<h1>" + "Coding Quiz Challenge" + "<h>";
-infoEl.innerHTML = "<p>" + "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score time by 15 seconds." + "</p>";
+    // local storage here
+    usernameEl.addEventListener("submit", function (event) {
 
-endScreen();
 
-// for loop to propagate questions/answers skipping 3again 
-startEl.addEventListener("click", renderQsAs);
 
-answersEl.addEventListener('click', renderFeedback);
 
-// timer functionality (needs connection with score)
-startEl.addEventListener("click", timeRemain);
 
-// View Highscore 
-scoreEl.addEventListener('click', scoreListEl);
-
-//username input field
-usernameEl.addEventListener('submit', storeUser);
+    });
+});
 
 
 // event.preventDefault();
